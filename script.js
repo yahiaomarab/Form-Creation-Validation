@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Form and feedback selection
     const form = document.getElementById("registration-form");
     const feedbackDiv = document.getElementById("form-feedback");
 
+    // Form submission event listener
     form.addEventListener("submit", (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Prevent form submission
 
-        // Retrieve and trim inputs
+        // Retrieve and trim user inputs
         const username = document.getElementById("username").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
@@ -15,24 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
         const messages = [];
 
         // Username validation
-        const validateUsername = () => username.length >= 3 || messages.push("Username must be at least 3 characters long.");
-        validateUsername();
+        username.length >= 3 || (isValid = false, messages.push("Username must be at least 3 characters long."));
 
         // Email validation
-        const validateEmail = () => (email.includes("@") && email.includes(".")) || messages.push("Please enter a valid email address.");
-        validateEmail();
+        (email.includes("@") && email.includes(".")) || (isValid = false, messages.push("Please enter a valid email address."));
 
         // Password validation
-        const validatePassword = () => password.length >= 8 || messages.push("Password must be at least 8 characters long.");
-        validatePassword();
-
-        // Update isValid if there are messages
-        isValid = messages.length === 0;
+        password.length >= 8 || (isValid = false, messages.push("Password must be at least 8 characters long."));
 
         // Display feedback
         feedbackDiv.style.display = "block";
-        isValid
-            ? (feedbackDiv.textContent = "Registration successful!", feedbackDiv.style.color = "#28a745")
-            : (feedbackDiv.innerHTML = messages.join("<br>"), feedbackDiv.style.color = "#dc3545");
+        if (isValid) {
+            feedbackDiv.textContent = "Registration successful!";
+            feedbackDiv.style.color = "#28a745"; // Green for success
+        } else {
+            feedbackDiv.innerHTML = messages.join("<br>");
+            feedbackDiv.style.color = "#dc3545"; // Red for errors
+        }
     });
 });
